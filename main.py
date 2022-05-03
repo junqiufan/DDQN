@@ -1,3 +1,4 @@
+
 import random
 import gym
 import numpy as np
@@ -39,11 +40,12 @@ torch.manual_seed(0)
 if __name__ == '__main__':
 
     replay_buffer = rl_utils.ReplayBuffer(buffer_size)
-    agent = DQN(state_dim, hidden_dim, action_dim, lr, gamma, epsilon,
-                target_update, device)#DQN算法
+    # agent = DQN(state_dim, hidden_dim, action_dim, lr, gamma, epsilon,
+    #             target_update, device)#DQN算法
     # agent = DQN(state_dim, hidden_dim, action_dim, lr, gamma, epsilon,
     #             target_update, device, 'DoubleDQN') #DDQN算法
-
+    agent = DQN(state_dim, hidden_dim, action_dim, lr, gamma, epsilon,
+                target_update, device, 'DuelingDQN')
     return_list, max_q_value_list = train_DQN(agent, env, num_episodes,
                                               replay_buffer, minimal_size,
                                               batch_size)
@@ -53,8 +55,9 @@ if __name__ == '__main__':
     plt.plot(episodes_list, mv_return)
     plt.xlabel('Episodes')
     plt.ylabel('Returns')
-    plt.title('DQN on {}'.format(env_name))
+    # plt.title('DQN on {}'.format(env_name))
     # plt.title('Double DQN on {}'.format(env_name))
+    plt.title('Dueling DQN on {}'.format(env_name))
     plt.show()
 
     frames_list = list(range(len(max_q_value_list)))
@@ -63,8 +66,9 @@ if __name__ == '__main__':
     plt.axhline(10, c='red', ls='--')
     plt.xlabel('Frames')
     plt.ylabel('Q value')
-    plt.title('DQN on {}'.format(env_name))
+    # plt.title('DQN on {}'.format(env_name))
     #plt.title('Double DQN on {}'.format(env_name))
+    plt.title('Dueling DQN on {}'.format(env_name))
     plt.show()
 
 # 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
